@@ -1,20 +1,22 @@
-import { useState, React } from "react";
+import { useContext, useState, React } from "react";
 import Carousel from "react-native-snap-carousel";
 import { IconButton } from "react-native-paper";
 import { Dimensions } from 'react-native';
 import { View, Button } from "react-native";
+import { AppContext } from './../store/app-context';
 
 let carouselRef;
 
-export default function CarouselContainer({ style, carouselItems, renderItem }) {
+export default function CarouselContainer({ style, renderItem }) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const appCtx = useContext(AppContext);
 
   return (
     <View style={{ flex: 1, width: '100%', paddingTop: 12, flexDirection: "column", justifyContent: "center" }}>
       <Carousel
         ref={(reference) => (carouselRef = reference)}
         layout={"default"}
-        data={carouselItems}
+        data={appCtx.carouselItems}
         sliderWidth={Dimensions.get('window').width}
         itemWidth={Dimensions.get('window').width}
         itemHeight={400}

@@ -1,24 +1,21 @@
 import { createContext, useState } from "react";
-import { fetchProducts } from "../api/http";
 
 export const AppContext = createContext({
-  initialItems: [],
-  populateInitialItems: () => {},
+  carouselItems: [],
+  populateCarouselItems: (data) => {},
 });
 
 function AppContextProvider({ children }) {
-  const [initialItems, setInitialItems] = useState([]);
+  const [carouselItems, setCarouselItems] = useState([]);
 
-  async function populateInit() {
-    console.log('called')
-    data = await fetchProducts();
-    setInitialItems(data);
-    console.log("setting --> " + data);
-  };
+  function populateCarouselItems(data) {
+    console.log(data);
+    setCarouselItems(data);
+  }
 
   const value = {
-    initialItems: initialItems,
-    populateInitialItems: populateInit,
+    carouselItems: carouselItems,
+    populateCarouselItems: populateCarouselItems,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

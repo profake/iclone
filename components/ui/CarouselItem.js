@@ -2,7 +2,6 @@ import React from "react";
 import { Text, Pressable, Image, View, StyleSheet } from "react-native";
 
 const CarouselItem = ({ item, index, style, textStyle }) => {
-
   return (
     <View style={[styles.container, style]}>
       <Image

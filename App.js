@@ -2,7 +2,7 @@ import MyAppbar from "./components/ui/MyAppbar";
 import CarouselContainer from "./components/CarouselContainer";
 import PopularCategories from "./components/ui/PopularCategories";
 import { Banner } from "./components/ui/Banner";
-import { ScrollView, Text } from "react-native";
+import { ScrollView, View } from "react-native";
 import SpecialCategory from "./components/ui/SpecialCategory";
 import CarouselItem from "./components/ui/CarouselItem";
 import CarouselItemTypeTwo from "./components/ui/CarouselItemTypeTwo";
@@ -13,9 +13,15 @@ import { Social } from "./components/ui/Social";
 import HorizontalLine from "./components/ui/HorizontalLine";
 import { fetchProducts } from "./api/http";
 import { useContext, useState, useEffect } from "react";
-import { AppContext } from "./store/app-context";
+import AppContextProvider, { AppContext } from "./store/app-context";
+import LoadingSpinner from "./components/ui/LoadingSpinner";
 
 export default function App() {
+  return <AppContextProvider><Main></Main></AppContextProvider>
+}
+
+function Main() {
+
   const carouselItems = [
     {
       title: "Lorem ipsum dolor sit amet",
@@ -128,130 +134,132 @@ export default function App() {
   ];
 
   const appCtx = useContext(AppContext);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    appCtx.populateInitialItems();
+    async function getProductsAndPopulateCarousel() {
+      const products = await fetchProducts(1);
+      appCtx.populateCarouselItems(products);
+      setIsLoading(false);
+    }
+    getProductsAndPopulateCarousel();
   }, []);
 
   return (
     <>
       {isLoading ? (
-        <Text>"Hello World"</Text>
+        <View style={{alignItems: 'center', justifyContent: 'center'}}><LoadingSpinner /></View>
       ) : (
-        <ScrollView
-          style={{ backgroundColor: "white" }}
-          stickyHeaderIndices={[0]}
-        >
-          <MyAppbar />
-          <CarouselContainer
-            carouselItems={appCtx.initialItems}
-            renderItem={CarouselItem}
-          />
-          <PopularCategories items={popularCats} />
-          <Banner
-            topText="UP TO"
-            middleText="50% discount"
-            bottomText="SELECT PRODUCT"
-            imageUri1="https://picsum.photos/400"
-            imageUri2="https://picsum.photos/300"
-          />
-          <Banner
-            topText="UP TO"
-            middleText="50% discount"
-            bottomText="SELECT PRODUCT"
-            imageUri1="https://picsum.photos/500"
-            imageUri2="https://picsum.photos/100"
-          />
-          <SpecialCategory
-            isHorizontalList={true}
-            categoryName="Special Drinks"
-            items={specialItems}
-          />
-          <SpecialCategory
-            isHorizontalList={true}
-            categoryName="High Quality Spices"
-            items={specialItems2}
-          />
-          <CarouselContainer
-            carouselItems={carouselItems}
-            renderItem={CarouselItemTypeTwo}
-          />
-          <SpecialCategory
-            isHorizontalList={false}
-            categoryName="Automobile Accessories"
-            items={specialItems2}
-          />
-          <CarouselContainer
-            carouselItems={carouselItems}
-            renderItem={CarouselItemTypeTwo}
-          />
-          <CarouselItem
-            item={carouselItems[2]}
-            textStyle={{ color: "white" }}
-            style={{
-              backgroundColor: "#ba4444",
-              height: 400,
-              marginVertical: 10,
-            }}
-          />
-          <CarouselItem
-            item={carouselItems[0]}
-            textStyle={{ color: "white" }}
-            style={{
-              backgroundColor: "#ba4444",
-              height: 400,
-              marginVertical: 10,
-            }}
-          />
-          <NewsLetter />
-          <CarouselContainer
-            carouselItems={carouselItems}
-            renderItem={CarouselItem}
-          />
-          <Motto />
-          <SpecialCategory
-            isHorizontalList={true}
-            categoryName="Clearance Sale"
-            items={specialItems2}
-          />
-          <HorizontalLine />
-          <CarouselItem
-            item={carouselItems[3]}
-            textStyle={{ color: "white" }}
-            style={{
-              backgroundColor: "#ba4444",
-              height: 400,
-              marginVertical: 10,
-            }}
-          />
-          <CarouselItem
-            item={carouselItems[1]}
-            textStyle={{ color: "white" }}
-            style={{
-              backgroundColor: "#ba4444",
-              height: 400,
-              marginVertical: 10,
-            }}
-          />
-          <CarouselItem
-            item={carouselItems[4]}
-            textStyle={{ color: "white" }}
-            style={{
-              backgroundColor: "#ba4444",
-              height: 400,
-              marginVertical: 10,
-            }}
-          />
-          <HorizontalLine />
-          <NewsLetter />
-          <HorizontalLine />
-          <Footer />
-          <HorizontalLine />
-          <Social />
-          <HorizontalLine />
-          <Text style={{ padding: 12 }}>© 2022 iSports.dk</Text>
-        </ScrollView>
+          <ScrollView
+            style={{ backgroundColor: "white" }}
+            stickyHeaderIndices={[0]}
+          >
+            <MyAppbar />
+            <CarouselContainer renderItem={CarouselItem} />
+             <PopularCategories items={popularCats} />
+            <Banner
+              topText="UP TO"
+              middleText="50% discount"
+              bottomText="SELECT PRODUCT"
+              imageUri1="https://picsum.photos/400"
+              imageUri2="https://picsum.photos/300"
+            />
+            <Banner
+              topText="UP TO"
+              middleText="50% discount"
+              bottomText="SELECT PRODUCT"
+              imageUri1="https://picsum.photos/500"
+              imageUri2="https://picsum.photos/100"
+            />
+            <SpecialCategory
+              isHorizontalList={true}
+              categoryName="Special Drinks"
+              items={specialItems}
+            />
+            <SpecialCategory
+              isHorizontalList={true}
+              categoryName="High Quality Spices"
+              items={specialItems2}
+            />
+            <CarouselContainer
+              carouselItems={carouselItems}
+              renderItem={CarouselItemTypeTwo}
+            />
+            <SpecialCategory
+              isHorizontalList={false}
+              categoryName="Automobile Accessories"
+              items={specialItems2}
+            />
+            <CarouselContainer
+              carouselItems={carouselItems}
+              renderItem={CarouselItemTypeTwo}
+            />
+            <CarouselItem
+              item={carouselItems[2]}
+              textStyle={{ color: "white" }}
+              style={{
+                backgroundColor: "#ba4444",
+                height: 400,
+                marginVertical: 10,
+              }}
+            />
+            <CarouselItem
+              item={carouselItems[0]}
+              textStyle={{ color: "white" }}
+              style={{
+                backgroundColor: "#ba4444",
+                height: 400,
+                marginVertical: 10,
+              }}
+            />
+            <NewsLetter />
+            <CarouselContainer
+              carouselItems={carouselItems}
+              renderItem={CarouselItem}
+            />
+            <Motto />
+            <SpecialCategory
+              isHorizontalList={true}
+              categoryName="Clearance Sale"
+              items={specialItems2}
+            />
+            <HorizontalLine />
+            <CarouselItem
+              item={carouselItems[3]}
+              textStyle={{ color: "white" }}
+              style={{
+                backgroundColor: "#ba4444",
+                height: 400,
+                marginVertical: 10,
+              }}
+            />
+            <CarouselItem
+              item={carouselItems[1]}
+              textStyle={{ color: "white" }}
+              style={{
+                backgroundColor: "#ba4444",
+                height: 400,
+                marginVertical: 10,
+              }}
+            />
+            <CarouselItem
+              item={carouselItems[4]}
+              textStyle={{ color: "white" }}
+              style={{
+                backgroundColor: "#ba4444",
+                height: 400,
+                marginVertical: 10,
+              }}
+            />
+            <HorizontalLine />
+            <NewsLetter />
+            <HorizontalLine />
+            <Footer />
+            <HorizontalLine />
+            <Social />
+            <HorizontalLine />
+            <Text style={{ padding: 12 }}>© 2022 iSports.dk</Text>
+          </ScrollView>
       )}
     </>
   );
