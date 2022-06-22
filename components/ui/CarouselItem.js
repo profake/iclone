@@ -1,18 +1,19 @@
-import React from "react";
+import { React } from "react";
 import { Text, Pressable, Image, View, StyleSheet } from "react-native";
 
-const CarouselItem = ({ item, index, style, textStyle, onPress }) => {
+export default function CarouselItem ({ item, index, style, textStyle, navigation }) {
+
   return (
     <Pressable
-      onPress={onPress}
+      onPress={() => navigation.navigate("DetailsScreen", { id: item.id })}
       style={[
         {
           borderRadius: 6,
           margin: 8,
           paddingBottom: 10,
           height: 400,
-          justifyContent: 'center',
-          alignItems: 'center',
+          justifyContent: "center",
+          alignItems: "center",
         },
         style,
       ]}
@@ -40,13 +41,17 @@ const CarouselItem = ({ item, index, style, textStyle, onPress }) => {
         </Text>
       </View>
       <Text
-        style={[{ margin: 12, padding: 6, fontSize: 18, fontWeight: "bold" }, textStyle]}
+        style={[
+          { margin: 12, padding: 6, fontSize: 18, fontWeight: "bold" },
+          textStyle,
+        ]}
       >
         ${item.price}
       </Text>
     </Pressable>
   );
 };
+
 const styles = StyleSheet.create({
   button: {
     backgroundColor: "#010101",
@@ -73,13 +78,11 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 22,
     textAlign: "center",
-    flexWrap: 'wrap'
+    flexWrap: "wrap",
   },
   text: {
     fontSize: 14,
     textAlign: "center",
-     flexWrap: 'wrap'
+    flexWrap: "wrap",
   },
 });
-
-export default CarouselItem;

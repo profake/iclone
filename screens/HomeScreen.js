@@ -35,8 +35,8 @@ export default function HomeScreen({ navigation }) {
           <LoadingSpinner />
         </View>
       ) : (
-        <ScrollView style={{ backgroundColor: "white" }}>
-          <CarouselContainer renderItem={CarouselItem} start={0} end={5} />
+        <ScrollView style={{ backgroundColor: "white" }}> 
+          <CarouselContainer start={0} end={5} navigation={navigation}/>
           <PopularCategories />
           <Banner
             topText="UP TO"
@@ -65,9 +65,9 @@ export default function HomeScreen({ navigation }) {
             end={18}
           />
           <CarouselContainer
-            renderItem={CarouselItem}
             start={6}
             end={9}
+            navigation={navigation}
           />
           <SpecialCategory
             isHorizontalList={false}
@@ -76,9 +76,9 @@ export default function HomeScreen({ navigation }) {
             end={14}
           />
           <CarouselContainer
-            renderItem={CarouselItem}
             start={14}
             end={17}
+            navigation={navigation}
           />
           <CarouselItem
             item={appCtx.allItems[getRandomInteger(0, 19)]}
@@ -88,6 +88,7 @@ export default function HomeScreen({ navigation }) {
               height: 400,
               marginVertical: 10,
             }}
+            navigation={navigation}
           />
           <CarouselItem
             item={appCtx.allItems[getRandomInteger(0, 19)]}
@@ -97,9 +98,10 @@ export default function HomeScreen({ navigation }) {
               height: 500,
               marginVertical: 10,
             }}
+            navigation={navigation}
           />
           <NewsLetter />
-          <CarouselContainer renderItem={CarouselItem} start={2} end={7} />
+          <CarouselContainer start={2} end={7} navigation={navigation}/>
           <Motto />
           <SpecialCategory
             isHorizontalList={true}
@@ -116,6 +118,7 @@ export default function HomeScreen({ navigation }) {
               height: 500,
               marginVertical: 10,
             }}
+            navigation={navigation}
           />
           <CarouselItem
             item={appCtx.allItems[getRandomInteger(0, 19)]}
@@ -125,6 +128,7 @@ export default function HomeScreen({ navigation }) {
               height: 500,
               marginVertical: 10,
             }}
+            navigation={navigation}
           />
           <CarouselItem
             item={appCtx.allItems[getRandomInteger(0, 19)]}
@@ -134,6 +138,7 @@ export default function HomeScreen({ navigation }) {
               height: 500,
               marginVertical: 10,
             }}
+            navigation={navigation}
           />
           <HorizontalLine />
           <NewsLetter />

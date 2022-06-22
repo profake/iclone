@@ -5,10 +5,11 @@ import { Dimensions } from "react-native";
 import { FlatList, View, Button } from "react-native";
 import { AppContext } from "./../store/app-context";
 import { getRandomInteger } from "./../util/random-number";
+import CarouselItem from './ui/CarouselItem';
 
 let carouselRef;
 
-export default function CarouselContainer({ style, renderItem, start, end }) {
+export default function CarouselContainer({ style, renderItem, start, end, navigation }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const appCtx = useContext(AppContext);
 
@@ -20,7 +21,12 @@ export default function CarouselContainer({ style, renderItem, start, end }) {
     >
       <FlatList
         data={appCtx.allItems.slice(start, end)}
-        renderItem={renderItem}
+        renderItem={({ item }) => (
+          <CarouselItem
+            item={item}
+            navigation={navigation}
+          />
+        )}
         keyExtractor={(item) => item.id}
         horizontal={true}                    
         showsHorizontalScrollIndicator={false}
