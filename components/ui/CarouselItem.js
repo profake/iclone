@@ -12,7 +12,9 @@ const CarouselItem = ({ item, index, style, textStyle }) => {
       />
       <View style={styles.textContainer}>
         <Text style={[styles.title, textStyle]}>{item.title}</Text>
-        <Text style={[styles.text, textStyle]}>{item.description}</Text>
+        <Text style={[styles.text, textStyle]}>{item.description.length < 60
+                ? `${item.description}`
+                : `${item.description.substring(0, 57)}...`}</Text>
       </View>
       <Pressable style={{ justifyContent: "center", alignItems: "center" }}>
         <View style={styles.button}>
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
     padding: 12,
   },
   title: {
-    fontSize: 30,
+    fontSize: 28,
     textAlign: "center",
   },
   text: {

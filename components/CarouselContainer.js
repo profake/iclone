@@ -4,10 +4,11 @@ import { IconButton } from "react-native-paper";
 import { Dimensions } from 'react-native';
 import { View, Button } from "react-native";
 import { AppContext } from './../store/app-context';
+import { getRandomInteger } from './../util/random-number';
 
 let carouselRef;
 
-export default function CarouselContainer({ style, renderItem }) {
+export default function CarouselContainer({ style, renderItem, start, end }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const appCtx = useContext(AppContext);
 
@@ -16,7 +17,7 @@ export default function CarouselContainer({ style, renderItem }) {
       <Carousel
         ref={(reference) => (carouselRef = reference)}
         layout={"default"}
-        data={appCtx.carouselItems}
+        data={appCtx.allItems.slice(start, end)}
         sliderWidth={Dimensions.get('window').width}
         itemWidth={Dimensions.get('window').width}
         itemHeight={400}

@@ -8,12 +8,11 @@ const CarouselItemTypeTwo = ({ item, index }) => {
       <Image
         style={styles.image}
         source={{
-          uri: "https://picsum.photos/200",
+          uri: item.image,
         }}
       />
       <View style={styles.textContainer}>
         <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.text}>{item.text}</Text>
       </View>
       <Pressable style={{ justifyContent: "center", alignItems: "center" }}>
         <View style={styles.button}>

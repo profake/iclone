@@ -7,7 +7,7 @@ export async function fetchProducts(limit) {
 
   try {
     const response = await axios.get(BASE_URL + fetchMsg);
-    console.log("Axios success: " + response);
+    // console.log("Axios success: " + response);
 
     const products = [];
 

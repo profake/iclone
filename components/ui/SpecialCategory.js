@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Image, Text, View, FlatList } from "react-native";
 import { IconButton } from "react-native-paper";
+import { AppContext } from "./../../store/app-context";
 
 function RenderListItem({ item, style }) {
   return (
@@ -33,13 +34,15 @@ function RenderListItem({ item, style }) {
             resizeMode: "contain",
           }}
           source={{
-            uri: "https://picsum.photos/200",
+            uri: item.image,
           }}
         />
       </View>
       <View style={{ flex: 4 }}>
         <Text style={{ margin: 12, padding: 6, fontSize: 16 }}>
-          {item.description}
+        {item.description.length < 60
+                ? `${item.description}`
+                : `${item.description.substring(0, 57)}...`}
         </Text>
       </View>
       <Text
@@ -51,11 +54,8 @@ function RenderListItem({ item, style }) {
   );
 }
 
-export default function SpecialCategory({
-  categoryName,
-  items,
-  isHorizontalList,
-}) {
+export default function SpecialCategory({ categoryName, isHorizontalList, start, end }) {
+  const appCtx = useContext(AppContext);
   return (
     <View style={{ paddingBottom: 40 }}>
       <Text style={{ fontWeight: "bold", fontSize: 22, padding: 18 }}>
@@ -65,7 +65,7 @@ export default function SpecialCategory({
       {isHorizontalList ? (
         <FlatList
           horizontal={true}
-          data={items}
+          data={appCtx.allItems.slice(start, end)}
           renderItem={RenderListItem}
           keyExtractor={(item) => item.id}
         />
@@ -78,7 +78,7 @@ export default function SpecialCategory({
             alignItems: "flex-start",
           }}
         >
-          {items.map((item) => (
+          {appCtx.allItems.slice(start, end).map((item) => (
             <RenderListItem item={item} style={{ width: "50%" }} />
           ))}
         </View>

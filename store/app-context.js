@@ -1,21 +1,22 @@
 import { createContext, useState } from "react";
 
 export const AppContext = createContext({
-  carouselItems: [],
-  populateCarouselItems: (data) => {},
+  allItems: [],
+  populateAllItems: (data) => {},
 });
 
 function AppContextProvider({ children }) {
-  const [carouselItems, setCarouselItems] = useState([]);
+  const [allItems, setAllItems] = useState([]);
 
-  function populateCarouselItems(data) {
+  function populateAllItems(data) {
     console.log(data);
-    setCarouselItems(data);
+    setAllItems(data);
   }
 
+
   const value = {
-    carouselItems: carouselItems,
-    populateCarouselItems: populateCarouselItems,
+    allItems: allItems,
+    populateAllItems: populateAllItems,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
