@@ -1,63 +1,77 @@
 import React from "react";
 import { Text, Pressable, Image, View, StyleSheet } from "react-native";
 
-const CarouselItemTypeTwo = ({ item, index }) => {
+const CarouselItemTypeTwo = ({ item, index}) => {
 
   return (
-    <View style={styles.container}>
-      <Image
-        style={styles.image}
-        source={{
-          uri: item.image,
-        }}
-      />
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>{item.title}</Text>
+    <Pressable
+      style={[
+        {
+          borderRadius: 6,
+          margin: 8,
+          paddingBottom: 10,
+          height: 400,
+        },
+        
+      ]}
+    >
+      <View style={{ flex: 4, alignItems: "center", paddingTop: 10 }}>
+        <Image
+          style={{
+            margin: 12,
+            width: undefined,
+            height: "90%",
+            aspectRatio: 1,
+            resizeMode: "contain",
+          }}
+          source={{
+            uri: item.image,
+          }}
+        />
       </View>
-      <Pressable style={{ justifyContent: "center", alignItems: "center" }}>
-        <View style={styles.button}>
-          <Text style={{ color: "black", fontWeight: "bold" }}>Buy now</Text>
-        </View>
-      </Pressable>
-    </View>
+      <View style={styles.textContainer}>
+        <Text style={[styles.title]}>{item.title}</Text>
+      </View>
+      <Text
+        style={{ margin: 12, padding: 6, fontSize: 18, fontWeight: "bold" }}
+      >
+        ${item.price}
+      </Text>
+    </Pressable>
   );
 }
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: "white",
+    backgroundColor: "#010101",
     width: 100,
     height: 40,
     padding: 4,
     alignItems: "center",
     justifyContent: "center",
-    position: 'absolute',
-    bottom: 20,
   },
   container: {
     backgroundColor: "white",
-    borderRadius: 5,
-    height: 240,
-    paddingVertical: 5,
+    height: 500,
+    padding: 5,
+    marginHorizontal: 16,
   },
   image: {
-    height: "100%",
+    height: "50%",
+    resizeMode: "contain",
   },
   textContainer: {
-    alignItems: "center",
-    justifyContent: "center",
-    position: 'absolute', 
-    top: 20,
     padding: 12,
+    width: 400,
   },
   title: {
-    color: 'white',
-    fontSize: 26,
+    fontSize: 22,
     textAlign: "center",
+    flexWrap: 'wrap'
   },
   text: {
-    color: 'white',
     fontSize: 14,
     textAlign: "center",
+     flexWrap: 'wrap'
   },
 });
 

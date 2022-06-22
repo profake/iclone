@@ -1,19 +1,20 @@
 import React, { useContext } from "react";
-import { Image, Text, View, FlatList } from "react-native";
+import { Image, Text, Pressable, View, FlatList } from "react-native";
 import { IconButton } from "react-native-paper";
 import { AppContext } from "./../../store/app-context";
+import { useNavigation } from "@react-navigation/native";
 
-function RenderListItem({ item, style }) {
+function RenderListItem({ item, style, onPress }) {
   return (
-    <View
+    <Pressable
+      onPress={onPress}
       style={[
         {
-          backgroundColor: "#f8f8f8",
           borderRadius: 6,
           margin: 8,
           paddingBottom: 10,
           height: 400,
-          maxWidth: 180,
+          backgroundColor: "#f8f8f8",
         },
         style,
       ]}
@@ -40,9 +41,9 @@ function RenderListItem({ item, style }) {
       </View>
       <View style={{ flex: 4 }}>
         <Text style={{ margin: 12, padding: 6, fontSize: 16 }}>
-        {item.description.length < 60
-                ? `${item.description}`
-                : `${item.description.substring(0, 57)}...`}
+          {item.description.length < 60
+            ? `${item.description}`
+            : `${item.description.substring(0, 57)}...`}
         </Text>
       </View>
       <Text
@@ -50,12 +51,18 @@ function RenderListItem({ item, style }) {
       >
         ${item.price}
       </Text>
-    </View>
+    </Pressable>
   );
 }
 
-export default function SpecialCategory({ categoryName, isHorizontalList, start, end }) {
+export default function SpecialCategory({
+  categoryName,
+  isHorizontalList,
+  start,
+  end,
+}) {
   const appCtx = useContext(AppContext);
+  const navigation = useNavigation();
   return (
     <View style={{ paddingBottom: 40 }}>
       <Text style={{ fontWeight: "bold", fontSize: 22, padding: 18 }}>
@@ -64,9 +71,20 @@ export default function SpecialCategory({ categoryName, isHorizontalList, start,
 
       {isHorizontalList ? (
         <FlatList
+          showsHorizontalScrollIndicator={false}
           horizontal={true}
           data={appCtx.allItems.slice(start, end)}
-          renderItem={RenderListItem}
+          renderItem={({ item }) => (
+            <RenderListItem
+              item={item}
+              style={{
+                maxWidth: 180,
+              }}
+              onPress={() =>
+                navigation.navigate("DetailsScreen", { id: item.id })
+              }
+            />
+          )}
           keyExtractor={(item) => item.id}
         />
       ) : (
@@ -79,7 +97,13 @@ export default function SpecialCategory({ categoryName, isHorizontalList, start,
           }}
         >
           {appCtx.allItems.slice(start, end).map((item) => (
-            <RenderListItem item={item} style={{ width: "50%" }} />
+            <RenderListItem
+              onPress={() =>
+                navigation.navigate("DetailsScreen", { id: item.id })
+              }
+              item={item}
+              style={{ width: "45%", height: 400 }}
+            />
           ))}
         </View>
       )}
