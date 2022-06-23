@@ -1,8 +1,15 @@
-import React from 'react'
-import { Text } from 'react-native'
+import React from "react";
+import { View, Text } from "react-native";
+import { useContext } from "react";
+import { AppContext } from "./../store/app-context";
 
 export default function CartScreen() {
+  const appCtx = useContext(AppContext);
   return (
-    <Text>Hello</Text>
-  )
+    <View>
+      {appCtx.cartItems.map((item) => (
+        <Text>{item.id + ": " + item.quantity}</Text>
+      ))}
+    </View>
+  );
 }

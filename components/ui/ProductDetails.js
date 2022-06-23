@@ -1,11 +1,17 @@
-import React from "react";
+import React, {useContext} from "react";
 import { ScrollView, View, Text, Image, Pressable } from "react-native";
 import { Button } from "react-native-paper";
 import NewsLetter from "./NewsLetter"
 import { Footer } from "./Footer";
 import { Social } from "./Social";
+import { AppContext } from './../../store/app-context';
+import { getRandomInteger } from "../../util/random-number";
+import { useNavigation } from '@react-navigation/native';
+import Motto from "./Motto";
 
 export default function ProductDetails({ item }) {
+  const appCtx = useContext(AppContext);
+
   return (
     <ScrollView>
       <View
@@ -98,7 +104,7 @@ export default function ProductDetails({ item }) {
             <Text>3D-Secure payment. Redeeming nets.</Text>
           </View>
         </View>
-        <Pressable
+        <Pressable onPress={()=>{appCtx.addToCart(item.id); console.log(`Added id ${item.id} to cart`)}}
           style={{
             borderWidth: 2,
             borderColor: "black",
@@ -129,6 +135,7 @@ export default function ProductDetails({ item }) {
           </Text>
         </Pressable>
       </View>
+      <Motto/>
       <NewsLetter/>
       <Footer/>
       <Social />
