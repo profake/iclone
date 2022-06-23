@@ -5,6 +5,7 @@ export const AppContext = createContext({
   cartItems: [],
   populateAllItems: (data) => {},
   addToCart: (itemId) => {},
+  reduceFromCart: (itemId) => {},
 });
 
 function AppContextProvider({ children }) {
@@ -19,7 +20,7 @@ function AppContextProvider({ children }) {
     let index = cartItems.findIndex((item) => item.id === itemId);
     if (index === -1) {
       // did not find the element, add it to items
-      setCartItems(cartItems => [...cartItems, { id: itemId, quantity: 1 }]);
+      setCartItems((cartItems) => [...cartItems, { id: itemId, quantity: 1 }]);
       console.log(cartItems);
     } else {
       // found the element, update count
@@ -29,11 +30,25 @@ function AppContextProvider({ children }) {
     }
   }
 
+  function reduceFromCart(itemId) {
+    let index = cartItems.findIndex((item) => item.id === itemId);
+    if (cartItems[index].quantity === 1) {
+      // will now have 0 after removal, so remove the entire element
+      setCartItems(cartItems.filter(item => item.id !== itemId))
+    } else {
+      // reduce quantity
+      const newArray = [...cartItems];
+      newArray[index].quantity = newArray[index].quantity - 1;
+      setCartItems(newArray);
+    }
+  }
+
   const value = {
     allItems: allItems,
     cartItems: cartItems,
     populateAllItems: populateAllItems,
     addToCart: addToCart,
+    reduceFromCart: reduceFromCart,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
