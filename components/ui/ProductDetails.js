@@ -1,16 +1,18 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { ScrollView, View, Text, Image, Pressable } from "react-native";
 import { Button } from "react-native-paper";
-import NewsLetter from "./NewsLetter"
+import NewsLetter from "./NewsLetter";
 import { Footer } from "./Footer";
 import { Social } from "./Social";
-import { AppContext } from './../../store/app-context';
+import { AppContext } from "./../../store/app-context";
 import { getRandomInteger } from "../../util/random-number";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import Motto from "./Motto";
+import Toast from "react-native-root-toast";
 
 export default function ProductDetails({ item }) {
   const appCtx = useContext(AppContext);
+  const navigation = useNavigation();
 
   return (
     <ScrollView>
@@ -104,7 +106,15 @@ export default function ProductDetails({ item }) {
             <Text>3D-Secure payment. Redeeming nets.</Text>
           </View>
         </View>
-        <Pressable onPress={()=>{appCtx.addToCart(item.id); console.log(`Added id ${item.id} to cart`)}}
+        <Pressable
+          android_ripple={{ color: "#5e00e7" }}
+          onPress={() => {
+            appCtx.addToCart(item.id, item.price);
+            Toast.show("Added to Cart!", {
+              duration: Toast.durations.LONG,
+            });
+            console.log(`Added id ${item.id} to cart`);
+          }}
           style={{
             borderWidth: 2,
             borderColor: "black",
@@ -117,6 +127,11 @@ export default function ProductDetails({ item }) {
           </Text>
         </Pressable>
         <Pressable
+          onPress={() => {
+            appCtx.addToCart(item.id, item.price);
+            navigation.navigate("CartScreen");
+          }}
+          android_ripple={{ color: "white" }}
           style={{
             backgroundColor: "black",
             marginHorizontal: 14,
@@ -135,9 +150,9 @@ export default function ProductDetails({ item }) {
           </Text>
         </Pressable>
       </View>
-      <Motto/>
-      <NewsLetter/>
-      <Footer/>
+      <Motto />
+      <NewsLetter />
+      <Footer />
       <Social />
     </ScrollView>
   );

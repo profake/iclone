@@ -3,9 +3,16 @@ import { ScrollView, Pressable, View, Text, Image } from "react-native";
 import { useContext } from "react";
 import { AppContext } from "./../store/app-context";
 import CartItem from "../components/ui/CartItem";
+import Motto from "../components/ui/Motto";
+import NewsLetter from "../components/ui/NewsLetter";
+import { Footer } from "../components/ui/Footer";
+import { Social } from "../components/ui/Social";
+import { useNavigation } from "@react-navigation/native";
 
 export default function CartScreen() {
   const appCtx = useContext(AppContext);
+  const navigation = useNavigation();
+
   return (
     <View style={{ flex: 1, paddingTop: 8 }}>
       <ScrollView>
@@ -15,7 +22,12 @@ export default function CartScreen() {
           )[0];
           return <CartItem item={item} quantity={cartItemInfo.quantity} />;
         })}
+        <View style={{ alignSelf: "flex-end", padding: 12 }}>
+          <Text style={{ fontWeight: "bold", fontSize: 18 }}>Total: {appCtx.cartTotal.toFixed(2)}</Text>
+        </View>
         <Pressable
+          android_ripple={{ color: "white" }}
+          onPress={() => navigation.navigate("HomeScreen")}
           style={{
             backgroundColor: "black",
             marginHorizontal: 14,
@@ -33,7 +45,10 @@ export default function CartScreen() {
             Keep Browsing
           </Text>
         </Pressable>
-        <Pressable onPress={()=>{appCtx.addToCart(item.id); console.log(`Added id ${item.id} to cart`)}}
+        <Pressable
+          onPress={() => {
+            console.log(`checkout clicked`);
+          }}
           style={{
             borderWidth: 2,
             borderColor: "black",
@@ -45,6 +60,10 @@ export default function CartScreen() {
             Go to Checkout
           </Text>
         </Pressable>
+        <Motto />
+        <NewsLetter />
+        <Footer />
+        <Social />
       </ScrollView>
     </View>
   );

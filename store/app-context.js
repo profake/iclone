@@ -3,6 +3,7 @@ import { createContext, useState } from "react";
 export const AppContext = createContext({
   allItems: [],
   cartItems: [],
+  cartTotal: 0,
   populateAllItems: (data) => {},
   addToCart: (itemId) => {},
   reduceFromCart: (itemId) => {},
@@ -11,12 +12,13 @@ export const AppContext = createContext({
 function AppContextProvider({ children }) {
   const [allItems, setAllItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [cartTotal, setCartTotal] = useState(0);
 
   function populateAllItems(data) {
     setAllItems(data);
   }
 
-  function addToCart(itemId) {
+  function addToCart(itemId, itemPrice) {
     let index = cartItems.findIndex((item) => item.id === itemId);
     if (index === -1) {
       // did not find the element, add it to items
@@ -28,9 +30,10 @@ function AppContextProvider({ children }) {
       newArray[index].quantity = newArray[index].quantity + 1;
       setCartItems(newArray);
     }
+    setCartTotal(cartTotal+itemPrice);
   }
 
-  function reduceFromCart(itemId) {
+  function reduceFromCart(itemId, itemPrice) {
     let index = cartItems.findIndex((item) => item.id === itemId);
     if (cartItems[index].quantity === 1) {
       // will now have 0 after removal, so remove the entire element
@@ -41,11 +44,13 @@ function AppContextProvider({ children }) {
       newArray[index].quantity = newArray[index].quantity - 1;
       setCartItems(newArray);
     }
+    setCartTotal(cartTotal-itemPrice);
   }
 
   const value = {
     allItems: allItems,
     cartItems: cartItems,
+    cartTotal: cartTotal,
     populateAllItems: populateAllItems,
     addToCart: addToCart,
     reduceFromCart: reduceFromCart,

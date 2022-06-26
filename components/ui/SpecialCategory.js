@@ -3,8 +3,10 @@ import { Image, Text, Pressable, View, FlatList } from "react-native";
 import { IconButton } from "react-native-paper";
 import { AppContext } from "./../../store/app-context";
 import { useNavigation } from "@react-navigation/native";
+import Toast from "react-native-root-toast";
 
 function RenderListItem({ item, style, onPress }) {
+  const appCtx = useContext(AppContext);
   return (
     <Pressable
       onPress={onPress}
@@ -23,7 +25,12 @@ function RenderListItem({ item, style, onPress }) {
         style={{ position: "absolute", right: -20, top: -20 }}
         icon="plus-circle"
         size={28}
-        onPress={() => console.log("Pressed")}
+        onPress={() => {
+          appCtx.addToCart(item.id, item.price);
+          Toast.show("Added to Cart!", {
+            duration: Toast.durations.LONG,
+          });
+        }}
       />
       <View style={{ flex: 3, alignItems: "center", paddingTop: 10 }}>
         <Image

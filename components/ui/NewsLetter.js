@@ -2,7 +2,7 @@ import { useState } from "react";
 import { TextInput } from "react-native-paper";
 import { View, Text } from "react-native";
 
-const MyComponent = () => {
+const NewsLetter = () => {
   const [text, setText] = useState("");
 
   return (
@@ -27,4 +27,4 @@ const MyComponent = () => {
   );
 };
 
-export default MyComponent;
+export default NewsLetter;

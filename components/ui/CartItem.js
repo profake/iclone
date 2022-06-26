@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { View, Text, Image, Pressable } from "react-native";
 import { AppContext } from "./../../store/app-context";
+import { IconButton } from "react-native-paper";
 
 export default function CartItem({ item, quantity }) {
   const appCtx = useContext(AppContext);
@@ -32,34 +33,28 @@ export default function CartItem({ item, quantity }) {
             borderWidth: 1,
             padding: 12,
             marginTop: 10,
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
-          <Pressable
-            style={{ marginHorizontal: 8 }}
-            onPress={() => appCtx.reduceFromCart(item.id)}
-          >
-            <Text style={{ fontSize: 18 }}>-</Text>
-          </Pressable>
-          <Text style={{ marginHorizontal: 8, fontSize: 20 }}>{quantity}</Text>
-          <Pressable
-            style={{ marginHorizontal: 8 }}
-            onPress={() => appCtx.addToCart(item.id)}
-          >
-            <Text style={{ fontSize: 18 }}>+</Text>
-          </Pressable>
+          <IconButton
+            icon="minus"
+            size={20}
+            onPress={() => appCtx.reduceFromCart(item.id, item.price)}
+          />
+          <Text style={{ fontSize: 26, margin: 4}}>{quantity}</Text>
+          <IconButton
+            icon="plus"
+            size={20}
+            onPress={() => {
+              appCtx.addToCart(item.id, item.price);
+            }}
+          />
         </View>
 
-        <Text style={{ fontWeight: "bold", fontSize: 18, paddingTop: 12 }}>
+        <Text style={{ fontWeight: "bold", fontSize: 20, paddingTop: 12 }}>
           ${item.price}
         </Text>
-        <Pressable
-          style={{ paddingTop: 4 }}
-          onPress={() => {
-            console.log("Remove pressed");
-          }}
-        >
-          <Text>Remove</Text>
-        </Pressable>
       </View>
     </View>
   );
