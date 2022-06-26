@@ -1,5 +1,4 @@
 import { useContext, useState, React } from "react";
-import Carousel from "react-native-snap-carousel";
 import { IconButton } from "react-native-paper";
 import { Dimensions } from "react-native";
 import { FlatList, View, Button } from "react-native";

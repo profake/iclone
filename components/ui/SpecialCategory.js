@@ -105,6 +105,7 @@ export default function SpecialCategory({
         >
           {appCtx.allItems.slice(start, end).map((item) => (
             <RenderListItem
+              key={item.id}
               onPress={() =>
                 navigation.navigate("DetailsScreen", { id: item.id })
               }

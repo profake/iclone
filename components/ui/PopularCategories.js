@@ -46,7 +46,7 @@ export default function PopularCategories() {
         }}
       >
         {appCtx.allItems.slice(6, 12).map((item) => (
-          <RenderListItem item={item} />
+          <RenderListItem key={item.id} item={item} />
         ))}
       </View>
     </View>
